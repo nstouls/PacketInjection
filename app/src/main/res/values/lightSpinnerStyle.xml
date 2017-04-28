@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- From lencinhaus : http://stackoverflow.com/questions/4058360/how-to-create-android-spinner-without-down-triangle-on-the-right-side-of-the-wid -->
+<resources>
+<style parent="@android:style/Widget.Spinner" name="LightSpinner"><item name="android:background">@android:drawable/edit_text</item>
+</style>
+</resources>
+

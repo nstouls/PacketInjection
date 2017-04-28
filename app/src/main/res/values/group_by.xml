@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="groupBy">
+        <item>8 bits</item>
+        <item>16 bits</item>
+        <item>24 bits</item>
+        <item>32 bits</item>
+        <item>8+16 bits</item>
+        </string-array>
+</resources>

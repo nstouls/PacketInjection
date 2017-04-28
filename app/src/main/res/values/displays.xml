@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="displays">
+        <item>ascii</item>
+        <item>Base 16/8bits</item>
+        <item>Base 16/16bits</item>
+        <item>Base 16/24bits</item>
+        <item>Base 16/32bits</item>
+        <item>Base 10/8bits</item>
+        <item>Base 10/16bits</item>
+        <item>Base 10/24bits</item>
+        <item>Base 10/32bits</item>
+    </string-array>
+</resources>

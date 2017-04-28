@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0ed2065106ba5f2ea2a1ed711e06384b1c740faa">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_14dced3e1dda73b185330b4845a825b2be34a5b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-21.0.3_1c8619161accec45bb5276686ddfdb14e30c5a14/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/pre-dexed/release/internal_impl-21.0.3_3b59ce9939a9cd91d2422f253000daf146531ad5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/nstouls/bin/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/pre-dexed/release/support-annotations-21.0.3_bdbae2a19b2d62704f35e4ddeb790ccfd9e14c2e.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nstouls/bin/android-sdk-mac_x86/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-21.0.3_bdbae2a19b2d62704f35e4ddeb790ccfd9e14c2e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/libs/internal_impl-21.0.3.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-21.0.3_3b59ce9939a9cd91d2422f253000daf146531ad5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0b66b4e31194a88fa23258697d6a2520f4d1b8a8">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_e2774ec10265dcd909c6bf6299762f86f8622dc4/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/Users/nstouls/CloudINSA/Documents/Android/PacketInjection/app/build/intermediates/pre-dexed/release/com.android.support-support-v4-21.0.3_1c8619161accec45bb5276686ddfdb14e30c5a14.jar" />
+    </item>
+
+</items>

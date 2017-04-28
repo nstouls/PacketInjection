@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_new_setting"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Create new preset"/>
+
+    <item
+        android:id="@+id/action_display_settings"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Change display settings"/>
+
+</menu>
