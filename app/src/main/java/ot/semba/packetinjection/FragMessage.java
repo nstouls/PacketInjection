@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,12 +38,15 @@ public class FragMessage extends Fragment {
 	private Button sendBtn;
     private ListeningThread listeningThread;
     private Button clearBtn;
+    private TextView showBaseTV;
     
     private int base=16;
     private int packet=1;
-    
+    private static final int DEFAULT_BASE = 16;
+    private static final int DEFAULT_PACKET = 1;
 
-	public FragMessage() {
+
+    public FragMessage() {
 		// Required empty public constructor
 	}
 
@@ -49,8 +54,9 @@ public class FragMessage extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View vue = inflater.inflate(R.layout.messages, container, false);
-		
-        
+
+
+        showBaseTV = (TextView)vue.findViewById(R.id.show_base);
         traces = (TraceManagement)vue.findViewById(R.id.traceDisplay);
         sendBtn = (Button)vue.findViewById(R.id.sendBtn);
         sendBtn.setOnClickListener(new OnClickListener() {
@@ -70,14 +76,22 @@ public class FragMessage extends Fragment {
     	});
 		
 
-        
-		traces.setBase(10 );  
+
+/*
+        // 20180830
+		traces.setBase(10 );
 		traces.setPacket(1); 
 		updateBaseAndPacket(10 ,FragMessage.this.packet);
         updateBaseAndPacket(FragMessage.this.base,1);
-        
+         */
 
-       
+        SharedPreferences prefs = mTheActivity.getSharedPreferences(getString(R.string.setting_file_name), Context.MODE_PRIVATE);
+        base = prefs.getInt(getString(R.string.setting_name_base),DEFAULT_BASE);
+        packet = prefs.getInt(getString(R.string.setting_name_packet),DEFAULT_PACKET);
+
+		traces.setFormat(base,packet);
+		updateBaseAndPacket(base,packet);
+
 		return vue;
 	}
 
@@ -89,6 +103,18 @@ public class FragMessage extends Fragment {
     private void updateBaseAndPacket(int newBase, int newPacket){
     	base=newBase;
     	packet=newPacket;
+        String b;
+        String[] bases = getResources().getStringArray(R.array.lesBases);
+
+        switch(base){
+            case 10 : b = bases[0]; break;
+            case 16 : b = bases[1]; break;
+            case 256: b = bases[2]; break;
+            case 257: b = bases[3]; break;
+            default : b = bases[0];
+        }
+
+        showBaseTV.setText(b);
     }
     
        
@@ -191,7 +217,7 @@ public class FragMessage extends Fragment {
 			
 	    	String[] values = rawVal.split(" ");
 	    	for(String val:values) {
-	    		// Insertion des z���ro muets de t���te pour l'alignement sur la taille des packets
+	    		// Adding some "0" ahead to generate some digit alignment
 	    		int i=0;
 				while(((val.length()+1)/2+i)%pp!=0){ // Test value : ffff0aa 
 					intermediate.add((byte)0);
@@ -310,9 +336,7 @@ public class FragMessage extends Fragment {
     	alert.setView(theView);
     	final Spinner theBase = (Spinner)theView.findViewById(R.id.displayBase);
     	final Spinner theGrouper = (Spinner)theView.findViewById(R.id.displayGroupBy);
-    	
-    	
-    	
+
         {
 	        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mTheActivity, R.array.lesBases, android.R.layout.simple_spinner_item);
 	        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -339,30 +363,59 @@ public class FragMessage extends Fragment {
         case 5  : theGrouper.setSelection(4); break;
         default : theGrouper.setSelection(0);
         }
-        
-        
+
+
+        // Unenabled the packet choice if base is ASCII
+        theBase.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String valBase=theBase.getItemAtPosition(position).toString();
+                if(valBase.equals("10"           ) ||
+                   valBase.equals("16"           )) {theGrouper.setEnabled(true);}
+                if(valBase.equals("ASCII"        )||
+                   valBase.equals("ASCII+\\r\\n" )) {theGrouper.setEnabled(false);}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) { }
+
+        });
 
         
     	alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
     		public void onClick(DialogInterface dialog, int whichButton) {
     			// if yes
     			
-            	String valBase=theBase.getSelectedItem().toString();
-            	if(valBase.equals("10"            )) {traces.setBase(10 );  updateBaseAndPacket(10 ,FragMessage.this.packet);}
-                if(valBase.equals("16"            )) {traces.setBase(16 );  updateBaseAndPacket(16 ,FragMessage.this.packet);}
-            	if(valBase.equals("ASCII"         )) {traces.setBase(256);  updateBaseAndPacket(256,FragMessage.this.packet);}
-            	if(valBase.equals("ASCII+\\r\\n"  )) {traces.setBase(257);  updateBaseAndPacket(257,FragMessage.this.packet);}
-    			
-            	String valGroup=theGrouper.getSelectedItem().toString();
-            	if(valGroup.equals("8 bits"        )) {traces.setPacket(1); updateBaseAndPacket(FragMessage.this.base,1);}
-            	if(valGroup.equals("16 bits"       )) {traces.setPacket(2); updateBaseAndPacket(FragMessage.this.base,2);}
-            	if(valGroup.equals("24 bits"       )) {traces.setPacket(3); updateBaseAndPacket(FragMessage.this.base,3);}
-            	if(valGroup.equals("32 bits"       )) {traces.setPacket(4); updateBaseAndPacket(FragMessage.this.base,4);}
-            	if(valGroup.equals("8+16 bits"     )) {traces.setPacket(5); updateBaseAndPacket(FragMessage.this.base,5);}
+				String valBase=theBase.getSelectedItem().toString();
+				int base=10;
+				int packet=1;
+				if(valBase.equals("10"           )) {base = 10;}
+				if(valBase.equals("16"           )) {base = 16;}
+				if(valBase.equals("ASCII"        )) {base = 256;}
+				if(valBase.equals("ASCII+\\r\\n" )) {base = 257;}
+
+				String valGroup=theGrouper.getSelectedItem().toString();
+				if(valGroup.equals("8 bits"       )) {packet = 1;}
+				if(valGroup.equals("16 bits"      )) {packet = 2;}
+				if(valGroup.equals("24 bits"      )) {packet = 3;}
+				if(valGroup.equals("32 bits"      )) {packet = 4;}
+				if(valGroup.equals("8+16 bits"    )) {packet = 5;}
+
+
+
+                traces.setFormat(base,packet);
+				updateBaseAndPacket(base,packet);
+
+                SharedPreferences prefs = mTheActivity.getSharedPreferences(getString(R.string.setting_file_name), Context.MODE_PRIVATE);
+                prefs.edit().putInt(getString(R.string.setting_name_base),base)
+                            .putInt(getString(R.string.setting_name_packet), packet)
+                            .apply();
     		}
     	});
 
-    	alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
     		public void onClick(DialogInterface dialog, int whichButton) {
     			// Nothing to do.
     		}

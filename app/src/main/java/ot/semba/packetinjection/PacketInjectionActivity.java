@@ -24,7 +24,12 @@ import android.widget.Toast;
 
 /**
  * @author Androsoft, What Else ?
- *
+ * <p><b>New updates in version 2.5 :</b></p>
+ * <ul>
+ *   <li>Permanent display of the current base</li>
+ *   <li>Change the SDK target to 28 (as requires by Google)</li>
+ *   <li>Display preferences (base/digit groupment) are now stored</li>
+ * </ul>
  * <p><b>New updates in version 2.4 :</b></p>
  * <ul>
  *   <li>Adding an option to precise a local port</li>
@@ -85,10 +90,13 @@ import android.widget.Toast;
  * </ul>
  */
 /*@TODO
- *  + bug TCP/IP qui crash l'appli. La cr��ation du socket doit ��tre dans un processus.
- *  + Problems to disconnect and re-connect (even in UDP)
- *  + To optimize the send method by maintaining a sending thread in memory (with wiat/notify/synchronized primitives)
- *  + Permettre de param���trer le nombre de lignes max en m���moire
+ *  + To optimize the send method by maintaining a sending thread in memory (with wait/notify/synchronized primitives)
+ *  + Add some preferences :
+ *     - customization of the size of the historic
+ *     - keeping device awake or not
+ *
+ *  + Still true ?
+ *     - Problems to disconnect and re-connect (even in UDP)
  */
 
 

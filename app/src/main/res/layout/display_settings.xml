@@ -59,7 +59,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dp"
-        android:text="The group by parameter is used to know how to group bits while displaying exchanged values. It has more sense when using base-10."
+        android:text="This parameter is used to know how to group digits while displaying exchanged values. Used only if a numerical base is chosen."
         android:textStyle="italic" />
 
 </LinearLayout>

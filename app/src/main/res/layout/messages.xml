@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-  	xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity$DummySectionFragment">
+    android:orientation="vertical" >
     
-
 
 
     <LinearLayout
@@ -40,9 +38,27 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:paddingRight="40dp"
-                android:paddingLeft="40dp"
+                android:paddingHorizontal="40dp"
                 android:text="Send" />
+
+            <TextView
+                android:id="@+id/show_base_announce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:paddingHorizontal="5dp"
+                android:text="Used base:"
+                android:textSize="10sp" />
+            <TextView
+                android:id="@+id/show_base"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/show_base_announce"
+                android:paddingLeft="15dp"
+                android:text="b?"
+                android:textSize="10sp" />
 
         </RelativeLayout>
 
