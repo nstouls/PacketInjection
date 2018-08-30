@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "ot.semba.packetinjection"
+        applicationId "p2i6.packetinjection"
         minSdkVersion 15
         targetSdkVersion 28
     }

@@ -1,4 +1,4 @@
-package ot.semba.packetinjection;
+package p2i6.packetinjection;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

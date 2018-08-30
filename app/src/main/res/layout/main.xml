@@ -168,11 +168,11 @@
 
                 </LinearLayout>
 
-                <ot.semba.packetinjection.TraceManagement
+                <p2i6.packetinjection.TraceManagement
                     android:id="@+id/traceDisplay"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" >
-                </ot.semba.packetinjection.TraceManagement>
+                </p2i6.packetinjection.TraceManagement>
             </LinearLayout>
 
             

@@ -4,7 +4,7 @@
     <string name="action_settings">Settings</string>
     <string name="app_name">Packet Injection</string>
 
-    <string name="setting_file_name">ot.semba.packetinjection</string>
+    <string name="setting_file_name">p2i6.packetinjection</string>
     <string name="setting_name_base">base</string>
     <string name="setting_name_packet">packet</string>
 
