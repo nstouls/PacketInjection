@@ -40,11 +40,14 @@ public class TCPThread extends ListeningThread {
 		
  
 	synchronized public boolean isConnected(){
-		return isTCPConnected &&
-			   TCPSocket.isConnected() && 
-	           !TCPSocket.isClosed() &&
-	           !TCPSocket.isInputShutdown() &&
-	           !TCPSocket.isOutputShutdown();
+		try{
+			return isTCPConnected &&
+					TCPSocket.isConnected() &&
+					!TCPSocket.isClosed() &&
+					!TCPSocket.isInputShutdown() &&
+					!TCPSocket.isOutputShutdown();
+		} catch(Exception e){}
+		return false;
 	}
 
 	

@@ -114,7 +114,9 @@ public class UDPThread extends ListeningThread {
 	synchronized public void closeConnection() {
 		isUDPConnected=false;
 		stopProcess = true;
-		UDPSocket.close();
+		try{
+            UDPSocket.close();
+        } catch(NullPointerException e){}
 		Log.d("MOI","Stop process setted");
 		publishConnectionStatus(false, -1, callBackForConnect);
 	}

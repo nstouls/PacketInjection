@@ -30,6 +30,10 @@ import android.widget.Toast;
  *   <li>Correcting a problem while writing Hexa data in a 0x manner.</li>
  *   <li>Trying to patch a NullPointerException bug observed by some users</li>
  * </ul>
+ * <p><b>New updates in version 2.6 :</b></p>
+ * <ul>
+ *   <li>Correction of a crashing bug in UDP thread</li>
+ * </ul>
  * <p><b>New updates in version 2.5 :</b></p>
  * <ul>
  *   <li>Permanent display of the current base</li>
@@ -96,6 +100,7 @@ import android.widget.Toast;
  * </ul>
  */
 /*@TODO
+ *  + Replace active waiting of TCP loop by two blocking processes
  *  + To optimize the send method by maintaining a sending thread in memory (with wait/notify/synchronized primitives)
  *  + Add some preferences :
  *     - customization of the size of the historic
