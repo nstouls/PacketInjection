@@ -5,23 +5,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +27,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.ArrayAdapter;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass.
@@ -66,16 +59,16 @@ public class FragConnexion extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
 		View vue = inflater.inflate(R.layout.connexion, container, false);
 
 		
         
 
         //IHM Construction
-        customAdress = (EditText)vue.findViewById(R.id.customAdress);
-        connectBtn = (Button)vue.findViewById(R.id.connectcustom);
+        customAdress = vue.findViewById(R.id.customAdress);
+        connectBtn = vue.findViewById(R.id.connectcustom);
         connectBtn.setOnClickListener(new OnClickListener() {
         	public void onClick(View v) {
         		if(mTheActivity.isConnected){
@@ -87,27 +80,22 @@ public class FragConnexion extends Fragment {
     	});
         
         
-        isTCPBtn = (ToggleButton)vue.findViewById(R.id.isTCP);
+        isTCPBtn = vue.findViewById(R.id.isTCP);
 
-
+		//resetPresets();
         loadPresets();
-//        presetName=(EditText)vue.findViewById(R.id.presetName);
-/*        addPresetBtn=(Button)vue.findViewById(R.id.addPreset);
-        addPresetBtn.setOnClickListener(new OnClickListener() {
-        	public void onClick(View v) {
-        		//addNewPreset(presetName.getText().toString());
-        		askForPresetName();
-        	}
-    	});
-  */
-        
-        listIPs = (ListView)vue.findViewById(R.id.listIPs);
+
+        listIPs = vue.findViewById(R.id.listIPs);
         listIPs.setTextFilterEnabled(true);
         listIPs.setOnItemClickListener(new OnItemClickListener(){
 			@Override
         	public void onItemClick(AdapterView<?> items, View view, int position, long rowId) {
         		ConnexionID ci = (ConnexionID)(items.getItemAtPosition(position));
-        		customAdress.setText(ci.ip+":"+ci.port);
+        		String addr= ci.ip+":"+ci.port;
+        		if(ci.localPort>0) {
+        			addr=ci.localPort+":"+addr;
+				}
+        		customAdress.setText(addr);
       			isTCPBtn.setChecked(ci.proto==ConnexionID.protocol.TCP);
         	}
         });   
@@ -154,24 +142,24 @@ public class FragConnexion extends Fragment {
 	// Presets management
 
 
-    void askForPresetName(){
-    	askForPresetName("","", "",false, "");
+    void dialogForNewPreset(){
+		dialogForNewPreset("","", "",false, "");
     }
 	
-    private void askForPresetName(String iIp, String iPort, String iLocalPort, boolean iIsTCP, String iName){
+    private void dialogForNewPreset(String iIp, String iPort, String iLocalPort, boolean iIsTCP, String iName){
     	AlertDialog.Builder alert = new AlertDialog.Builder(mTheActivity);
 
     	alert.setTitle("Adding a preset");
-    	alert.setMessage("Choose a name for this new preset");
+//    	alert.setMessage("Choose a name for this new preset");
 
     	// Set an EditText view to get user input 
-    	View theView = mTheActivity.getLayoutInflater().inflate(R.layout.new_preset, null);
+		View theView = mTheActivity.getLayoutInflater().inflate(R.layout.new_preset, null);
     	alert.setView(theView);
-    	final EditText name = (EditText)theView.findViewById(R.id.name);
-    	final EditText IP = (EditText)theView.findViewById(R.id.IP);
-    	final EditText port = (EditText)theView.findViewById(R.id.port);
-		final EditText localPort = (EditText)theView.findViewById(R.id.localPort);
-    	final ToggleButton isTCP = (ToggleButton)theView.findViewById(R.id.isTCP);
+    	final EditText name = theView.findViewById(R.id.name);
+    	final EditText IP = theView.findViewById(R.id.IP);
+    	final EditText port = theView.findViewById(R.id.port);
+		final EditText localPort = theView.findViewById(R.id.localPort);
+    	final ToggleButton isTCP = theView.findViewById(R.id.isTCP);
 
 
     	name.setText(iName);
@@ -197,11 +185,11 @@ public class FragConnexion extends Fragment {
                         return "";
                     } else {
                         String[] splits = resultingTxt.split("\\.");
-                        for (int i=0; i<splits.length; i++) {
-                            if (Integer.valueOf(splits[i]) > 255) {
-                                return "";
-                            }
-                        }
+						for(String s : splits) {
+							if (Integer.valueOf(s) > 255) {
+								return "";
+							}
+						}
                     }
                 }
             return null;
@@ -219,15 +207,15 @@ public class FragConnexion extends Fragment {
     			String lIp = IP.getText().toString();
     			boolean proto = isTCP.isSelected();
 
-				System.out.println("Le port : "+lePort);
-				System.out.println("Le port local : "+leLocalPort);
-    			System.out.println("Le nom : "+leNom);
-    			System.out.println("Le lIp : "+lIp);
-    			System.out.println("Le proto : "+proto);
+				Log.d("New preset","Le port : "+lePort);
+				Log.d("New preset","Le port local : "+leLocalPort);
+				Log.d("New preset","Le nom : "+leNom);
+				Log.d("New preset","Le lIp : "+lIp);
+				Log.d("New preset","Le proto : "+proto);
 
     			boolean addStatus = addNewPreset(lIp, lePort, leLocalPort, proto, leNom);
     			if(!addStatus) {
-    				askForPresetName(lIp, lePort, leLocalPort, proto, leNom);
+					dialogForNewPreset(lIp, lePort, leLocalPort, proto, leNom);
     			}
     		}
     	});
@@ -242,7 +230,7 @@ public class FragConnexion extends Fragment {
     }
 	
 	public void updateListItems() {
-        listIPs.setAdapter(new ArrayAdapter<ConnexionID>(getActivity(), R.layout.item_of_ip_list, Presets));
+        listIPs.setAdapter(new ArrayAdapter<ConnexionID>(mTheActivity, R.layout.item_of_ip_list, Presets));
     }
     
     private ConnexionID selectedItem;
@@ -289,12 +277,14 @@ public class FragConnexion extends Fragment {
     		Toast.makeText(mTheActivity, "Please provide a valid port number for this preset. Adding canceled", Toast.LENGTH_LONG).show();
     		return false;
 		}
-		int localPort=0;
-		try{
-			localPort=Integer.parseInt(localPortString);
-		} catch(NumberFormatException e){
-			Toast.makeText(mTheActivity, "Please provide a valid port number for this preset. Adding canceled", Toast.LENGTH_LONG).show();
-			return false;
+		int localPort=-1;
+		if(localPortString!=null && localPortString.length()>0) {
+			try {
+				localPort = Integer.parseInt(localPortString);
+			} catch (NumberFormatException e) {
+				Toast.makeText(mTheActivity, "Please provide a valid local port number for this preset. Adding canceled", Toast.LENGTH_LONG).show();
+				return false;
+			}
 		}
     	ConnexionID ci = new ConnexionID(name, ip, port, localPort, isTCP);
     	
@@ -346,7 +336,7 @@ public class FragConnexion extends Fragment {
 			ObjectInputStream ois= new ObjectInputStream(fis);
 			try {
 				// s�rialisation : �criture de l'objet dans le flux de sortie
-				Presets = (List<ConnexionID>) ois.readObject(); 
+				Presets = (List<ConnexionID>) ois.readObject();
 			} finally {
 				//fermeture des flux
 				try {
@@ -355,25 +345,33 @@ public class FragConnexion extends Fragment {
 					fis.close();
 				}
 			}
-    	} catch(IOException ioe) {
+    	} catch(Exception ioe) {
 			ioe.printStackTrace();
-			
-	    	Presets = new ArrayList<ConnexionID>();
-	        // Retrieving presets from XML file.
-			String[] tab = getResources().getStringArray(R.array.presets);
-	        for(int i=0 ; i<tab.length ; i++) {
-	        	String[] p = tab[i].split("\\|");
-	        	System.out.println ("*"+p[0]+"*"+p[1]+"*"+p[2]+"*"+p[3]+"*");
-	        	Presets.add(new ConnexionID(p[0].trim(), p[1].trim(), Integer.parseInt(p[2].trim()), ((p[3].trim().equals("UDP"))?ConnexionID.protocol.UDP:ConnexionID.protocol.TCP) ));
-	        }
-			
-	        savePresets();
+			resetPresets();
 			Toast.makeText(getActivity(), "No presets found. New presets generated.", Toast.LENGTH_LONG).show();
-		} catch(ClassNotFoundException cnfe) {
-			cnfe.printStackTrace();
 		}
     }
 
+
+    private void resetPresets(){
+		Presets = new ArrayList<ConnexionID>();
+		// Retrieving default presets from XML file.
+		String[] tab = getResources().getStringArray(R.array.presets);
+		for(String tabI : tab) {
+			String[] p = tabI.split("\\|");
+			Presets.add(
+					new ConnexionID(
+							p[0].trim(),
+							p[1].trim(),
+							Integer.parseInt(p[2].trim()),
+							Integer.parseInt(p[4].trim()),
+							((p[3].trim().equals("UDP"))?ConnexionID.protocol.UDP:ConnexionID.protocol.TCP)
+					)
+			);
+		}
+
+		savePresets();
+	}
 
 
 
@@ -392,12 +390,13 @@ public class FragConnexion extends Fragment {
 	// Fragment callback methods
 	
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if(context instanceof PacketInjectionActivity)
 		try {
-			mTheActivity = (PacketInjectionActivity) activity;
+			mTheActivity = (PacketInjectionActivity) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

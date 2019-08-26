@@ -8,10 +8,10 @@ public class ConnexionID implements Serializable {
 	public String name;
     public String ip;
     public int port;
-    public int localPort;
+    public int localPort; // Could be -1 when undefined
     public protocol proto;
     static public enum protocol {TCP, UDP};
-    
+
 
 
     public ConnexionID(String n, String i, int p, int localPort, protocol proto){

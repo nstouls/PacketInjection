@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="presets">
-        <item>Reseted E-Block | 192.168.1.254   | 5000 | UDP</item>
-        <item>Lucifer         | 192.168.1.2     | 5000 | UDP</item>
-        <item>Benoit          | 192.168.0.1     | 5000 | UDP</item>
-        <item>Balrog          | 134.214.146.176 | 5000 | UDP</item>
+        <item>Reseted E-Block | 192.168.1.254   | 5000 | UDP | -1    </item>
+        <item>Lucifer         | 192.168.1.2     | 5000 | UDP | -1    </item>
+        <item>Benoit          | 192.168.0.1     | 5000 | UDP | -1    </item>
+        <item>Balrog          | 134.214.146.176 | 5000 | UDP | -1  </item>
+        <item>Balrog via P2I6 | 134.214.223.49  | 5000 | TCP | 5000  </item>
     </string-array>
 </resources>

@@ -110,11 +110,11 @@ public class FragMessage extends Fragment {
             case 10 : b = bases[0]; break;
             case 16 : b = bases[1]; break;
             case 256: b = bases[2]; break;
-            case 257: b = bases[3]; break;
+			case 257: b = bases[3]; break;
             default : b = bases[0];
         }
 
-        showBaseTV.setText(b);
+		showBaseTV.setText(b);
     }
     
        
@@ -157,8 +157,8 @@ public class FragMessage extends Fragment {
 			localPort="-1";
 		}
 
-    	if(isTCP) listeningThread = new TCPThread(traces, 100, IP, Integer.parseInt(port), Integer.parseInt(localPort), this, mTheActivity);
-    	else listeningThread = new UDPThread(traces, 100, IP, Integer.parseInt(port), Integer.parseInt(localPort), this, mTheActivity);
+    	if(isTCP) listeningThread = new TCPThread(traces, 100, IP, Integer.parseInt(port.trim()), Integer.parseInt(localPort), this, mTheActivity);
+    	else listeningThread = new UDPThread(traces, 100, IP, Integer.parseInt(port.trim()), Integer.parseInt(localPort), this, mTheActivity);
     }
     
     synchronized public void callBackForConnect(boolean isConnected, int port) {
@@ -173,17 +173,21 @@ public class FragMessage extends Fragment {
     		//return port;
 
     	} else {
-    		Toast.makeText(mTheActivity, "Connection failed.", Toast.LENGTH_LONG).show();    	
-    		mTheActivity.isConnected=false;
-    		mTheActivity.publishConnectionStatus(-1);
+    		if(mTheActivity != null) {
+	    		Toast.makeText(mTheActivity, "Connection failed.", Toast.LENGTH_LONG).show();
+				mTheActivity.isConnected=false;
+				mTheActivity.publishConnectionStatus(-1);
+			}
     		//return -1;
     	}
     }
 
     
     protected void setAsDisconnected(){
-    	mTheActivity.setConnectBtnText("Connect");
-    	mTheActivity.isConnected=false;
+		if(mTheActivity != null) {
+			mTheActivity.setConnectBtnText("Connect");
+			mTheActivity.isConnected = false;
+		}
     }
     
     public void disconnect(){
@@ -440,12 +444,12 @@ public class FragMessage extends Fragment {
 	// Fragment callback methods
 	
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		try {
-			mTheActivity = (PacketInjectionActivity) activity;
+			mTheActivity = (PacketInjectionActivity) context;
 		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
+			throw new ClassCastException(context.toString()
 					+ " must implement OnFragmentInteractionListener");
 		}
 	}

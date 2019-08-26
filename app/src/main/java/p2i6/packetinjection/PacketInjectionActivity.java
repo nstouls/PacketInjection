@@ -24,6 +24,12 @@ import android.widget.Toast;
 
 /**
  * @author Androsoft, What Else ?
+ * <p><b>New updates in version 2.7 :</b></p>
+ * <ul>
+ *   <li>Correcting a problem with use of local port</li>
+ *   <li>Correcting a problem while writing Hexa data in a 0x manner.</li>
+ *   <li>Trying to patch a NullPointerException bug observed by some users</li>
+ * </ul>
  * <p><b>New updates in version 2.5 :</b></p>
  * <ul>
  *   <li>Permanent display of the current base</li>
@@ -211,7 +217,7 @@ SectionsPagerAdapter mSectionsPagerAdapter;
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_new_setting:
-                connections.askForPresetName();
+                connections.dialogForNewPreset();
                 return true;
                 
             case R.id.action_display_settings:
@@ -244,7 +250,7 @@ SectionsPagerAdapter mSectionsPagerAdapter;
     				if (!inetAddress.isLoopbackAddress()) {
     					String s = inetAddress.getHostAddress().toString();
     					// On n'affiche que les adresses IPV4	
-    					if(s.indexOf(":")==-1) {
+    					if(!s.contains(":")) {
     						res=res+sep+s;
     						sep=", ";
     					}
